@@ -4,9 +4,13 @@ import { RouterView, RouterLink } from 'vue-router'
 
 <template>
   <nav>
-    <RouterLink to="/">Home</RouterLink> |
+    <RouterLink class="" to="/">Home</RouterLink> |
     <RouterLink to="/stats">Stats</RouterLink>
   </nav>
 
   <RouterView />
 </template>
+
+<style>
+@import 'bulma/css/bulma.min.css';
+</style>
