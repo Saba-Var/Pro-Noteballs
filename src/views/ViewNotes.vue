@@ -3,13 +3,19 @@
     <div class="card has-background-success-dark p-4 mb-5">
       <div class="field">
         <div class="control">
-          <textarea class="textarea" placeholder="Add a new note" />
+          <textarea v-model="newNoteValue" class="textarea" placeholder="Add a new note" />
         </div>
       </div>
 
       <div class="field is-grouped is-grouped-right">
         <div class="control">
-          <button class="button has-background-success is-link">Add New Note</button>
+          <button
+            :disabled="!newNoteValue.trim()"
+            class="button has-background-success is-link"
+            @click="newNoteAddHandler"
+          >
+            Add New Note
+          </button>
         </div>
       </div>
     </div>
@@ -35,19 +41,16 @@
 <script setup>
 import { ref } from 'vue'
 
-const notes = ref([
-  {
-    id: 1,
-    content:
-      'Lorem, ipsum dolor sit amet consectetur adipisicing elit. Minima inventore quae consequuntur quos asperiores optio temporibus illo harum reiciendis obcaecati explicabo illum modi, doloribus repudiandae. Ipsum provident reprehenderit eius aliquam?',
-    createdAt: new Date().toDateString()
-  },
+const newNoteValue = ref('')
 
-  {
-    id: 2,
-    content:
-      'Lorem, ipsum dolor sit amet consectetur adipisicing elit. Minima inventore quae consequuntur quos asperiores optio temporibus illo harum reiciendis obcaecati explicabo illum modi, doloribus repudiandae. Ipsum provident reprehenderit eius aliquam?',
-    createdAt: new Date().toDateString()
-  }
-])
+const notes = ref([])
+
+const newNoteAddHandler = () => {
+  notes.value.push({
+    id: Math.random() + new Date().getTime(),
+    createdAt: new Date().toDateString(),
+    content: newNoteValue.value
+  })
+  newNoteValue.value = ''
+}
 </script>
