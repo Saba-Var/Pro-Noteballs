@@ -20,7 +20,12 @@
       </div>
     </div>
 
-    <NoteCard v-for="note in notes" :key="note.id" :note="note" />
+    <NoteCard
+      v-for="note in notes"
+      @deleteNoteHandler="deleteNoteHandler"
+      :key="note.id"
+      :note="note"
+    />
   </div>
 </template>
 
@@ -39,5 +44,9 @@ const newNoteAddHandler = () => {
     content: newNoteValue.value
   })
   newNoteValue.value = ''
+}
+
+const deleteNoteHandler = (id) => {
+  notes.value = notes.value.filter((note) => note.id !== id)
 }
 </script>

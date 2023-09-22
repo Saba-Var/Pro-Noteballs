@@ -19,13 +19,13 @@
     </div>
     <footer class="card-footer">
       <a href="#" class="card-footer-item">Edit</a>
-      <a href="#" class="card-footer-item">Delete</a>
+      <a href="#" @click="deleteNoteHandler" class="card-footer-item">Delete</a>
     </footer>
   </div>
 </template>
 
 <script setup>
-import { defineProps, computed } from 'vue'
+import { defineProps, computed, defineEmits } from 'vue'
 
 const props = defineProps({
   note: {
@@ -33,6 +33,12 @@ const props = defineProps({
     required: true
   }
 })
+
+const emit = defineEmits(['deleteNoteHandler'])
+
+const deleteNoteHandler = () => {
+  emit('deleteNoteHandler', props.note.id)
+}
 
 const noteContentLengthText = computed(() => {
   const length = props.note.content.length
