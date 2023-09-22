@@ -1,5 +1,5 @@
 import { createRouter, createWebHistory } from 'vue-router'
-import { ViewNotes, ViewStats } from '@/views'
+import { ViewNotes, ViewStats, ViewEditNote } from '@/views'
 
 const routes = [
   {
@@ -12,6 +12,12 @@ const routes = [
     component: ViewStats,
     path: '/stats',
     name: 'stats'
+  },
+
+  {
+    component: ViewEditNote,
+    path: '/edit-note/:id',
+    name: 'edit-note'
   }
 ]
 
