@@ -33,5 +33,19 @@ export const useNotesStore = defineStore('notes', () => {
     }
   })
 
-  return { notes, noteAddHandler, deleteNoteHandler, getNoteContent, editNoteHandler }
+  const totalNotesCount = computed(() => notes.value.length)
+
+  const totalCharactersCount = computed(() => {
+    return notes.value.reduce((acc, note) => acc + note.content.length, 0)
+  })
+
+  return {
+    totalCharactersCount,
+    deleteNoteHandler,
+    totalNotesCount,
+    editNoteHandler,
+    getNoteContent,
+    noteAddHandler,
+    notes
+  }
 })
