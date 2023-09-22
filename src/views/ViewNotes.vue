@@ -20,33 +20,26 @@
       </div>
     </div>
 
-    <NoteCard
-      v-for="note in notes"
-      @deleteNoteHandler="deleteNoteHandler"
-      :key="note.id"
-      :note="note"
-    />
+    <NoteCard v-for="note in notes" :key="note.id" :note="note" />
   </div>
 </template>
 
 <script setup>
+import { useNotesStore } from '@/stores/notes'
 import { NoteCard } from '@/components'
+import { storeToRefs } from 'pinia'
 import { ref } from 'vue'
 
 const newNoteValue = ref('')
 
-const notes = ref([])
+const storeNotes = useNotesStore()
+
+const { notes } = storeToRefs(storeNotes)
+
+const { noteAddHandler } = storeNotes
 
 const newNoteAddHandler = () => {
-  notes.value.push({
-    id: Math.random() + new Date().getTime(),
-    createdAt: new Date().toDateString(),
-    content: newNoteValue.value
-  })
+  noteAddHandler(newNoteValue.value)
   newNoteValue.value = ''
-}
-
-const deleteNoteHandler = (id) => {
-  notes.value = notes.value.filter((note) => note.id !== id)
 }
 </script>
