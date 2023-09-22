@@ -1,5 +1,10 @@
 <template>
-  <div class="card mb-4">
+  <div
+    class="card mb-4 scale-in-center"
+    :class="{
+      'scale-out-center': isDeleting
+    }"
+  >
     <div class="card-content">
       <div class="content">
         <p class="note-content">
@@ -24,19 +29,31 @@
         </small>
       </div>
     </div>
-    <footer class="card-footer">
-      <RouterLink class="card-footer-item" :to="`/edit-note/${note.id}`">Edit</RouterLink>
 
-      <a class="card-footer-item" @click="deleteNote" href="#">Delete</a>
+    <footer class="card-footer">
+      <button
+        class="card-footer-item action-button button is-clickable"
+        @click="$router.push(`/edit-note/${note.id}`)"
+        :disabled="isDeleting"
+      >
+        Edit
+      </button>
+
+      <button
+        class="card-footer-item action-button button is-clickable"
+        :disabled="isDeleting"
+        @click="deleteNote"
+      >
+        Delete
+      </button>
     </footer>
   </div>
 </template>
 
 <script setup>
+import { defineProps, computed, ref } from 'vue'
 import { useNotesStore } from '@/stores/notes'
 import { useToast } from 'vue-toastification'
-import { defineProps, computed } from 'vue'
-import { RouterLink } from 'vue-router'
 
 const props = defineProps({
   note: {
@@ -49,9 +66,15 @@ const toast = useToast()
 const storeNotes = useNotesStore()
 const { deleteNoteHandler } = storeNotes
 
+const isDeleting = ref(false)
+
 const deleteNote = () => {
-  deleteNoteHandler(props.note.id)
-  toast.success('Note deleted successfully!')
+  isDeleting.value = true
+
+  setTimeout(() => {
+    deleteNoteHandler(props.note.id)
+    toast.success('Note deleted successfully!')
+  }, 500)
 }
 
 const noteContentLengthText = computed(() => {
@@ -63,5 +86,13 @@ const noteContentLengthText = computed(() => {
 <style>
 .note-content {
   white-space: pre-line;
+}
+
+.card-footer {
+  border: none !important;
+}
+
+.action-button {
+  border-radius: 0 !important;
 }
 </style>

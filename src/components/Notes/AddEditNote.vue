@@ -1,5 +1,5 @@
 <template>
-  <div class="card p-4 mb-5" :class="`has-background-${bgColor}-dark`">
+  <div class="card p-4 mb-5 scale-in-center" :class="`has-background-${bgColor}-dark`">
     <label v-if="label" class="label has-text-white">{{ label }}</label>
     <div class="field">
       <div class="control">
