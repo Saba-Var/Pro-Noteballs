@@ -16,6 +16,13 @@
           <time :datetime="note.createdAt"> {{ note.createdAt }} </time>
         </small>
       </div>
+
+      <div v-if="note.updatedAt" class="has-text-right has-text-grey-light">
+        <small>
+          Updated at:
+          <time :datetime="note.updatedAt"> {{ note.updatedAt }} </time>
+        </small>
+      </div>
     </div>
     <footer class="card-footer">
       <RouterLink class="card-footer-item" :to="`/edit-note/${note.id}`">Edit</RouterLink>

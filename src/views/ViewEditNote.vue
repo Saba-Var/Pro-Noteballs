@@ -7,9 +7,13 @@
     bgColor="link"
   >
     <template v-slot:buttons>
-      <button @click="$router.push('/')" class="button is-light is-link">Cancel</button>
+      <button @click="$router.push('/')" class="button is-light is-link mr-3">Cancel</button>
 
-      <button :disabled="!noteContent.trim()" class="button has-background-link is-link">
+      <button
+        class="button has-background-link is-link"
+        :disabled="!noteContent.trim()"
+        @click="editNote"
+      >
         Save note
       </button>
     </template>
@@ -17,8 +21,29 @@
 </template>
 
 <script setup>
+import { useRoute, useRouter } from 'vue-router'
+import { useNotesStore } from '@/stores/notes'
 import { AddEditNote } from '@/components'
-import { ref } from 'vue'
+import { onMounted, ref } from 'vue'
 
+const noteStore = useNotesStore()
 const noteContent = ref('')
+const router = useRouter()
+const route = useRoute()
+
+const { getNoteContent, editNoteHandler } = noteStore
+
+const editNote = () => {
+  editNoteHandler(+route.params.id, noteContent.value)
+  router.push('/')
+}
+
+onMounted(() => {
+  const note = getNoteContent(+route.params.id)
+  if (note) {
+    noteContent.value = note
+  } else {
+    router.push('/')
+  }
+})
 </script>
