@@ -1,43 +1,52 @@
 <template>
   <div class="notes">
-    <AddEditNote ref="addEditNoteRef" v-model="newNoteValue">
-      <template v-slot:buttons>
-        <button
-          :disabled="!newNoteValue.trim()"
-          class="button has-background-success is-link"
-          @click="newNoteAddHandler"
-        >
-          Add New Note
-        </button>
-      </template>
-    </AddEditNote>
+    <div class="card has-background-success-dark p-4 mb-5">
+      <div class="field">
+        <div class="control">
+          <textarea v-model="newNoteValue" class="textarea" placeholder="Add a new note" />
+        </div>
+      </div>
 
-    <NoteCard v-for="note in notes" :key="note.id" :note="note" />
+      <div class="field is-grouped is-grouped-right">
+        <div class="control">
+          <button
+            :disabled="!newNoteValue.trim()"
+            class="button has-background-success is-link"
+            @click="newNoteAddHandler"
+          >
+            Add New Note
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <NoteCard
+      v-for="note in notes"
+      @deleteNoteHandler="deleteNoteHandler"
+      :key="note.id"
+      :note="note"
+    />
   </div>
 </template>
 
 <script setup>
-import { NoteCard, AddEditNote } from '@/components'
-import { useNotesStore } from '@/stores/notes'
-import { ref, onMounted } from 'vue'
-import { storeToRefs } from 'pinia'
+import { NoteCard } from '@/components'
+import { ref } from 'vue'
 
 const newNoteValue = ref('')
-const addEditNoteRef = ref(null)
 
-const storeNotes = useNotesStore()
-
-const { notes } = storeToRefs(storeNotes)
-
-const { noteAddHandler } = storeNotes
+const notes = ref([])
 
 const newNoteAddHandler = () => {
-  noteAddHandler(newNoteValue.value)
+  notes.value.push({
+    id: Math.random() + new Date().getTime(),
+    createdAt: new Date().toDateString(),
+    content: newNoteValue.value
+  })
   newNoteValue.value = ''
-  addEditNoteRef.value.focusTextarea()
 }
 
-onMounted(() => {
-  addEditNoteRef.value.focusTextarea()
-})
+const deleteNoteHandler = (id) => {
+  notes.value = notes.value.filter((note) => note.id !== id)
+}
 </script>

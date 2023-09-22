@@ -16,26 +16,16 @@
           <time :datetime="note.createdAt"> {{ note.createdAt }} </time>
         </small>
       </div>
-
-      <div v-if="note.updatedAt" class="has-text-right has-text-grey-light">
-        <small>
-          Updated at:
-          <time :datetime="note.updatedAt"> {{ note.updatedAt }} </time>
-        </small>
-      </div>
     </div>
     <footer class="card-footer">
-      <RouterLink class="card-footer-item" :to="`/edit-note/${note.id}`">Edit</RouterLink>
-
-      <a class="card-footer-item" @click="deleteNoteHandler(note.id)" href="#">Delete</a>
+      <a href="#" class="card-footer-item">Edit</a>
+      <a href="#" @click="deleteNoteHandler" class="card-footer-item">Delete</a>
     </footer>
   </div>
 </template>
 
 <script setup>
-import { useNotesStore } from '@/stores/notes'
-import { defineProps, computed } from 'vue'
-import { RouterLink } from 'vue-router'
+import { defineProps, computed, defineEmits } from 'vue'
 
 const props = defineProps({
   note: {
@@ -44,8 +34,11 @@ const props = defineProps({
   }
 })
 
-const storeNotes = useNotesStore()
-const { deleteNoteHandler } = storeNotes
+const emit = defineEmits(['deleteNoteHandler'])
+
+const deleteNoteHandler = () => {
+  emit('deleteNoteHandler', props.note.id)
+}
 
 const noteContentLengthText = computed(() => {
   const length = props.note.content.length
