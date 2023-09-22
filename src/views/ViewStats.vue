@@ -1,5 +1,5 @@
 <template>
-  <div class="stats">
+  <div class="stats scale-in-center">
     <table class="table is-fullwidth">
       <thead>
         <tr>
