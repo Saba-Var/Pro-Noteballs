@@ -27,13 +27,14 @@
     <footer class="card-footer">
       <RouterLink class="card-footer-item" :to="`/edit-note/${note.id}`">Edit</RouterLink>
 
-      <a class="card-footer-item" @click="deleteNoteHandler(note.id)" href="#">Delete</a>
+      <a class="card-footer-item" @click="deleteNote" href="#">Delete</a>
     </footer>
   </div>
 </template>
 
 <script setup>
 import { useNotesStore } from '@/stores/notes'
+import { useToast } from 'vue-toastification'
 import { defineProps, computed } from 'vue'
 import { RouterLink } from 'vue-router'
 
@@ -44,8 +45,14 @@ const props = defineProps({
   }
 })
 
+const toast = useToast()
 const storeNotes = useNotesStore()
 const { deleteNoteHandler } = storeNotes
+
+const deleteNote = () => {
+  deleteNoteHandler(props.note.id)
+  toast.success('Note deleted successfully!')
+}
 
 const noteContentLengthText = computed(() => {
   const length = props.note.content.length

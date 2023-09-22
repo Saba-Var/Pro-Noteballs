@@ -23,6 +23,7 @@
 <script setup>
 import { useRoute, useRouter } from 'vue-router'
 import { useNotesStore } from '@/stores/notes'
+import { useToast } from 'vue-toastification'
 import { AddEditNote } from '@/components'
 import { onMounted, ref } from 'vue'
 
@@ -30,11 +31,13 @@ const noteStore = useNotesStore()
 const noteContent = ref('')
 const router = useRouter()
 const route = useRoute()
+const toast = useToast()
 
 const { getNoteContent, editNoteHandler } = noteStore
 
 const editNote = () => {
   editNoteHandler(+route.params.id, noteContent.value)
+  toast.success('Note edited successfully!')
   router.push('/')
 }
 
