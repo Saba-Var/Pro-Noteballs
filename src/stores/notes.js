@@ -2,7 +2,13 @@ import { defineStore } from 'pinia'
 import { ref } from 'vue'
 
 export const useNotesStore = defineStore('notes', () => {
-  const notes = ref([])
+  const notes = ref([
+    {
+      id: 1,
+      createdAt: new Date().toDateString(),
+      content: 'This is a note'
+    }
+  ])
 
   const noteAddHandler = (newNote) => {
     notes.value.push({

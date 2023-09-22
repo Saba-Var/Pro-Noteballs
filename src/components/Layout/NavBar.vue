@@ -2,7 +2,9 @@
   <nav class="navbar is-success" role="navigation" aria-label="main navigation">
     <div class="container is-max-desktop px-2">
       <div class="navbar-brand">
-        <div class="navbar-item is-size-4 is-family-monospace">Pro Noteballs</div>
+        <RouterLink to="/" class="navbar-item is-size-4 is-family-monospace is-clickable">
+          Pro Noteballs
+        </RouterLink>
 
         <a
           @click.prevent="showMobileNavBar = !showMobileNavBar"

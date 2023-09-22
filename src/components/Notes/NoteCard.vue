@@ -18,8 +18,9 @@
       </div>
     </div>
     <footer class="card-footer">
-      <a href="#" class="card-footer-item">Edit</a>
-      <a href="#" @click="deleteNoteHandler(note.id)" class="card-footer-item">Delete</a>
+      <RouterLink class="card-footer-item" :to="`/edit-note/${note.id}`">Edit</RouterLink>
+
+      <a class="card-footer-item" @click="deleteNoteHandler(note.id)" href="#">Delete</a>
     </footer>
   </div>
 </template>
@@ -27,6 +28,7 @@
 <script setup>
 import { useNotesStore } from '@/stores/notes'
 import { defineProps, computed } from 'vue'
+import { RouterLink } from 'vue-router'
 
 const props = defineProps({
   note: {
