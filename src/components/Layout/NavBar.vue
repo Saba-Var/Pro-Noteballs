@@ -2,9 +2,7 @@
   <nav class="navbar is-success" role="navigation" aria-label="main navigation">
     <div class="container is-max-desktop px-2">
       <div class="navbar-brand">
-        <RouterLink to="/" class="navbar-item is-size-4 is-family-monospace is-clickable">
-          Pro Noteballs
-        </RouterLink>
+        <div class="navbar-item is-size-4 is-family-monospace">Pro Noteballs</div>
 
         <a
           @click.prevent="showMobileNavBar = !showMobileNavBar"
@@ -23,23 +21,8 @@
 
       <div id="navbarBasicExample" :class="{ 'is-active': showMobileNavBar }" class="navbar-menu">
         <div class="navbar-end">
-          <RouterLink
-            @click="showMobileNavBar = !showMobileNavBar"
-            active-class="is-active"
-            class="navbar-item"
-            to="/"
-          >
-            Notes
-          </RouterLink>
-
-          <RouterLink
-            @click="showMobileNavBar = !showMobileNavBar"
-            active-class="is-active"
-            class="navbar-item"
-            to="/stats"
-          >
-            Stats</RouterLink
-          >
+          <RouterLink active-class="is-active" to="/" class="navbar-item">Notes</RouterLink>
+          <RouterLink active-class="is-active" to="/stats" class="navbar-item">Stats</RouterLink>
         </div>
       </div>
     </div>
