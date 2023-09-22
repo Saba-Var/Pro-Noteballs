@@ -2,12 +2,20 @@
   <div class="card mb-4">
     <div class="card-content">
       <div class="content">
-        {{ note.content }}
+        <p class="note-content">
+          {{ note.content }}
+        </p>
       </div>
-      <p>
-        Created at:
-        <time :datetime="note.createdAt"> {{ note.createdAt }} </time>
-      </p>
+      <div class="has-text-right has-text-grey-light mt-2">
+        <small> {{ noteContentLengthText }}</small>
+      </div>
+
+      <div class="has-text-right has-text-grey-light">
+        <small>
+          Created at:
+          <time :datetime="note.createdAt"> {{ note.createdAt }} </time>
+        </small>
+      </div>
     </div>
     <footer class="card-footer">
       <a href="#" class="card-footer-item">Edit</a>
@@ -17,12 +25,23 @@
 </template>
 
 <script setup>
-import { defineProps } from 'vue'
+import { defineProps, computed } from 'vue'
 
-defineProps({
+const props = defineProps({
   note: {
     type: Object,
     required: true
   }
 })
+
+const noteContentLengthText = computed(() => {
+  const length = props.note.content.length
+  return `${length} ${length === 1 ? 'character' : 'characters'}`
+})
 </script>
+
+<style>
+.note-content {
+  white-space: pre-line;
+}
+</style>
