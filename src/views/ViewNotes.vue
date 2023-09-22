@@ -20,25 +20,12 @@
       </div>
     </div>
 
-    <div class="card mb-4" v-for="note in notes" :key="note.id">
-      <div class="card-content">
-        <div class="content">
-          {{ note.content }}
-        </div>
-        <p>
-          Created at:
-          <time :datetime="note.createdAt"> {{ note.createdAt }} </time>
-        </p>
-      </div>
-      <footer class="card-footer">
-        <a href="#" class="card-footer-item">Edit</a>
-        <a href="#" class="card-footer-item">Delete</a>
-      </footer>
-    </div>
+    <NoteCard v-for="note in notes" :key="note.id" :note="note" />
   </div>
 </template>
 
 <script setup>
+import { NoteCard } from '@/components'
 import { ref } from 'vue'
 
 const newNoteValue = ref('')
