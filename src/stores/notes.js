@@ -8,7 +8,7 @@ export const useNotesStore = defineStore('notes', () => {
     notes.value.unshift({
       createdAt: new Date().toDateString(),
       id: new Date().getTime(),
-      content: newNote,
+      content: newNote.trim(),
       updatedAt: null
     })
   }
