@@ -5,7 +5,7 @@
     }"
     class="notes"
   >
-    <AddEditNote v-model="newNoteValue" ref="addEditNoteRef">
+    <AddEditNote v-model="newNoteValue">
       <template v-slot:buttons>
         <button
           :disabled="!newNoteValue.trim()"
@@ -31,10 +31,9 @@
 import { NoteCard, AddEditNote } from '@/components'
 import { useNotesStore } from '@/stores/notes'
 import { useToast } from 'vue-toastification'
-import { ref, onMounted } from 'vue'
 import { storeToRefs } from 'pinia'
+import { ref } from 'vue'
 
-const addEditNoteRef = ref(null)
 const isEditingNote = ref(false)
 const newNoteValue = ref('')
 const toast = useToast()
@@ -48,15 +47,10 @@ const { noteAddHandler } = storeNotes
 const newNoteAddHandler = () => {
   noteAddHandler(newNoteValue.value)
   newNoteValue.value = ''
-  addEditNoteRef.value.focusTextarea()
   toast.success('Note added successfully!')
 }
 
 const enableEditingNote = () => {
   isEditingNote.value = true
 }
-
-onMounted(() => {
-  addEditNoteRef.value.focusTextarea()
-})
 </script>
