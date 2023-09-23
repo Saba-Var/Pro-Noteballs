@@ -8,8 +8,8 @@
     <AddEditNote v-model="newNoteValue">
       <template v-slot:buttons>
         <button
-          :disabled="!newNoteValue.trim()"
           class="button has-background-success is-link"
+          :disabled="!newNoteValue.trim()"
           @click="newNoteAddHandler"
         >
           Add New Note

@@ -13,7 +13,8 @@ const app = createApp(App)
 const toastOptions = {
   pauseOnHover: false,
   timeout: 3000,
-  toastClassName: 'toast'
+  toastClassName: 'toast',
+  maxToasts: 3
 }
 
 app.use(pinia)

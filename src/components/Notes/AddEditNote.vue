@@ -4,28 +4,37 @@
     <div class="field">
       <div class="control">
         <textarea
-          @input="$emit('update:modelValue', $event.target.value)"
+          @input="value = $event.target.value"
           :placeholder="placeholder"
           :value="modelValue"
           class="textarea"
+          maxlength="400"
           v-autofocus
         />
       </div>
     </div>
 
-    <div class="field is-grouped is-grouped-right">
-      <div class="control">
-        <slot name="buttons" />
+    <div class="textarea-footer">
+      <div
+        class="is-grouped-left has-text-white"
+        :class="[value.length > 400 ? 'has-text-danger' : 'has-text-white']"
+      >
+        {{ characterCountPreview }}
+      </div>
+      <div class="field is-grouped is-grouped-right">
+        <div class="control">
+          <slot name="buttons" />
+        </div>
       </div>
     </div>
   </div>
 </template>
 
 <script setup>
+import { defineProps, computed, defineEmits } from 'vue'
 import { vAutofocus } from '@/directives'
-import { defineProps } from 'vue'
 
-defineProps({
+const props = defineProps({
   modelValue: {
     type: String,
     required: true
@@ -40,6 +49,33 @@ defineProps({
   },
   label: {
     type: String
+  },
+  maxLength: {
+    type: Number,
+    default: 400
   }
 })
+
+const emit = defineEmits(['update:modelValue'])
+
+const value = computed({
+  get() {
+    return props.modelValue
+  },
+  set(value) {
+    emit('update:modelValue', value)
+  }
+})
+
+const characterCountPreview = computed(() => {
+  return `${value.value.length}/${props.maxLength}`
+})
 </script>
+
+<style scoped>
+.textarea-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+</style>
