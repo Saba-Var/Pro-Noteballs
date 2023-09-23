@@ -32,15 +32,15 @@
 
     <footer class="card-footer">
       <button
-        class="card-footer-item action-button button is-clickable"
-        @click="$router.push(`/edit-note/${note.id}`)"
+        class="card-footer-item action-button button is-clickable has-text-link"
+        @click="enableEditingNote"
         :disabled="isDeleting"
       >
         Edit
       </button>
 
       <button
-        class="card-footer-item action-button button is-clickable"
+        class="card-footer-item action-button button is-clickable has-text-danger"
         :disabled="isDeleting"
         @click="deleteNote"
       >
@@ -51,16 +51,37 @@
 </template>
 
 <script setup>
-import { defineProps, computed, ref } from 'vue'
+import { defineProps, computed, ref, defineEmits } from 'vue'
 import { useNotesStore } from '@/stores/notes'
 import { useToast } from 'vue-toastification'
+import { useRouter } from 'vue-router'
+
+const router = useRouter()
 
 const props = defineProps({
   note: {
     type: Object,
     required: true
+  },
+  modelValue: {
+    type: Boolean,
+    required: true
   }
 })
+
+const emit = defineEmits({
+  'update:modelValue': null
+})
+
+const enableEditingNote = () => {
+  emit('update:modelValue', true)
+
+  const timeout = setTimeout(() => {
+    router.push(`/edit-note/${props.note.id}`)
+  }, 500)
+
+  return () => clearTimeout(timeout)
+}
 
 const toast = useToast()
 const storeNotes = useNotesStore()
@@ -71,10 +92,12 @@ const isDeleting = ref(false)
 const deleteNote = () => {
   isDeleting.value = true
 
-  setTimeout(() => {
+  const timeout = setTimeout(() => {
     deleteNoteHandler(props.note.id)
     toast.success('Note deleted successfully!')
   }, 500)
+
+  return () => clearTimeout(timeout)
 }
 
 const noteContentLengthText = computed(() => {

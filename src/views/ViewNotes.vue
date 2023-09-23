@@ -1,6 +1,11 @@
 <template>
-  <div class="notes">
-    <AddEditNote ref="addEditNoteRef" v-model="newNoteValue">
+  <div
+    :class="{
+      'scale-out-center': isEditingNote
+    }"
+    class="notes"
+  >
+    <AddEditNote v-model="newNoteValue" ref="addEditNoteRef">
       <template v-slot:buttons>
         <button
           :disabled="!newNoteValue.trim()"
@@ -12,7 +17,13 @@
       </template>
     </AddEditNote>
 
-    <NoteCard v-for="note in notes" :key="note.id" :note="note" />
+    <NoteCard
+      @enableEditingNote="enableEditingNote"
+      v-model="isEditingNote"
+      v-for="note in notes"
+      :key="note.id"
+      :note="note"
+    />
   </div>
 </template>
 
@@ -24,6 +35,7 @@ import { ref, onMounted } from 'vue'
 import { storeToRefs } from 'pinia'
 
 const addEditNoteRef = ref(null)
+const isEditingNote = ref(false)
 const newNoteValue = ref('')
 const toast = useToast()
 
@@ -38,6 +50,10 @@ const newNoteAddHandler = () => {
   newNoteValue.value = ''
   addEditNoteRef.value.focusTextarea()
   toast.success('Note added successfully!')
+}
+
+const enableEditingNote = () => {
+  isEditingNote.value = true
 }
 
 onMounted(() => {
