@@ -22,6 +22,7 @@
 </template>
 
 <script setup>
+import { vAutofocus } from '@/directives'
 import { defineProps } from 'vue'
 
 defineProps({
@@ -41,8 +42,4 @@ defineProps({
     type: String
   }
 })
-
-const vAutofocus = {
-  mounted: (el) => el.focus()
-}
 </script>
