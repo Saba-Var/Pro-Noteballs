@@ -54,9 +54,11 @@ const editNote = () => {
 const cancelHandler = () => {
   isCanceling.value = true
 
-  setTimeout(() => {
+  const timeout = setTimeout(() => {
     router.push('/')
   }, 500)
+
+  return () => clearTimeout(timeout)
 }
 
 onMounted(() => {
