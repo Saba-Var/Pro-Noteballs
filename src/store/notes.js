@@ -17,6 +17,7 @@ export const useNotesStore = defineStore('notes', () => {
   const notesCollection = collection(firebaseDb, 'notes')
   const toast = useToast()
 
+  const notesLoading = ref(false)
   const notes = ref([])
 
   const getNoteContent = computed(() => {
@@ -34,8 +35,9 @@ export const useNotesStore = defineStore('notes', () => {
 
   const getAllNotes = async () => {
     try {
-      const q = query(notesCollection, orderBy('createdAt', 'desc'))
+      notesLoading.value = true
 
+      const q = query(notesCollection, orderBy('createdAt', 'desc'))
       onSnapshot(q, (querySnapshot) => {
         const allNotes = []
 
@@ -47,6 +49,7 @@ export const useNotesStore = defineStore('notes', () => {
         })
 
         notes.value = allNotes
+        notesLoading.value = false
       })
     } catch (error) {
       toast.error('Notes could not be fetched!')
@@ -98,6 +101,7 @@ export const useNotesStore = defineStore('notes', () => {
     editNoteHandler,
     getNoteContent,
     noteAddHandler,
+    notesLoading,
     getAllNotes,
     notes
   }
