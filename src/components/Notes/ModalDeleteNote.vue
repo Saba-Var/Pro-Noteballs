@@ -9,7 +9,7 @@
     <div class="modal-card" ref="deleteModalRef">
       <header class="modal-card-head">
         <p class="modal-card-title">Delete Note</p>
-        <button class="delete" aria-label="close"></button>
+        <button class="delete" aria-label="close" @click="closeModalHandler"></button>
       </header>
       <section class="modal-card-body">Do you really want to delete this note?</section>
       <footer class="modal-card-foot field is-grouped is-grouped-right">
