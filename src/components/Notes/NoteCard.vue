@@ -41,17 +41,22 @@
 
       <button
         class="card-footer-item action-button button is-clickable has-text-danger"
+        @click="modals.showDeleteModal = true"
         :disabled="isDeleting"
-        @click="deleteNote"
       >
         Delete
       </button>
     </footer>
   </div>
+
+  <Teleport to="body">
+    <ModalDeleteNote v-model="modals.showDeleteModal" @deleteNote="deleteNote" />
+  </Teleport>
 </template>
 
 <script setup>
-import { defineProps, computed, ref, defineEmits } from 'vue'
+import { defineProps, computed, ref, defineEmits, reactive } from 'vue'
+import { ModalDeleteNote } from '@/components'
 import { useNotesStore } from '@/stores/notes'
 import { useToast } from 'vue-toastification'
 import { useRouter } from 'vue-router'
@@ -88,8 +93,12 @@ const storeNotes = useNotesStore()
 const { deleteNoteHandler } = storeNotes
 
 const isDeleting = ref(false)
+const modals = reactive({
+  showDeleteModal: false
+})
 
 const deleteNote = () => {
+  modals.showDeleteModal = false
   isDeleting.value = true
 
   const timeout = setTimeout(() => {
