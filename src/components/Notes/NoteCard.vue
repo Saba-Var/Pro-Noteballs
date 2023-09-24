@@ -62,7 +62,6 @@
 import { defineProps, computed, ref, defineEmits, reactive } from 'vue'
 import { ModalDeleteNote } from '@/components'
 import { useNotesStore } from '@/store'
-import { useToast } from 'vue-toastification'
 import { useRouter } from 'vue-router'
 
 const router = useRouter()
@@ -92,7 +91,6 @@ const enableEditingNote = () => {
   return () => clearTimeout(timeout)
 }
 
-const toast = useToast()
 const storeNotes = useNotesStore()
 const { deleteNoteHandler } = storeNotes
 
@@ -107,7 +105,6 @@ const deleteNote = () => {
 
   const timeout = setTimeout(() => {
     deleteNoteHandler(props.note.id)
-    toast.success('Note deleted successfully!')
   }, 500)
 
   return () => clearTimeout(timeout)

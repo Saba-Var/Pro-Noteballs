@@ -1,4 +1,4 @@
-import { collection, onSnapshot, addDoc, orderBy, query } from 'firebase/firestore'
+import { collection, onSnapshot, addDoc, orderBy, query, deleteDoc, doc } from 'firebase/firestore'
 import { useToast } from 'vue-toastification'
 import { firebaseDb } from '@/services'
 import { defineStore } from 'pinia'
@@ -68,8 +68,13 @@ export const useNotesStore = defineStore('notes', () => {
     }
   }
 
-  const deleteNoteHandler = (id) => {
-    notes.value = notes.value.filter((note) => note.id !== id)
+  const deleteNoteHandler = async (id) => {
+    try {
+      await deleteDoc(doc(notesCollection, id))
+      toast.success('Note deleted successfully!')
+    } catch (error) {
+      toast.error('Note could not be deleted!')
+    }
   }
 
   return {
