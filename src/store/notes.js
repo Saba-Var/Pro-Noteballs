@@ -1,8 +1,17 @@
-import { collection, onSnapshot, addDoc, orderBy, query, deleteDoc, doc } from 'firebase/firestore'
 import { useToast } from 'vue-toastification'
 import { firebaseDb } from '@/services'
 import { defineStore } from 'pinia'
 import { ref, computed } from 'vue'
+import {
+  collection,
+  onSnapshot,
+  deleteDoc,
+  updateDoc,
+  orderBy,
+  addDoc,
+  query,
+  doc
+} from 'firebase/firestore'
 
 export const useNotesStore = defineStore('notes', () => {
   const notesCollection = collection(firebaseDb, 'notes')
@@ -12,7 +21,7 @@ export const useNotesStore = defineStore('notes', () => {
 
   const getNoteContent = computed(() => {
     return (id) => {
-      const note = notes.value.find((note) => note.id === id)
+      const note = notes.value?.find((note) => note.id === id)
       return note ? note.content : null
     }
   })
@@ -59,12 +68,17 @@ export const useNotesStore = defineStore('notes', () => {
     }
   }
 
-  const editNoteHandler = (id, newContent) => {
-    let note = notes.value.find((note) => note.id === id)
+  const editNoteHandler = async (id, newContent) => {
+    try {
+      await updateDoc(doc(notesCollection, id), {
+        content: newContent,
+        updatedAt: new Date().toISOString()
+      })
 
-    if (note) {
-      note.updatedAt = new Date().toDateString()
-      note.content = newContent
+      toast.success('Note updated successfully!')
+    } catch (error) {
+      console.log(error)
+      toast.error('Note could not be updated!')
     }
   }
 
