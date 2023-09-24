@@ -21,8 +21,8 @@
 </template>
 
 <script setup>
+import { onClickOutside, onKeyStroke } from '@vueuse/core'
 import { defineEmits, defineProps, ref } from 'vue'
-import { onClickOutside } from '@vueuse/core'
 
 defineProps({
   modelValue: {
@@ -40,4 +40,6 @@ const closeModalHandler = () => {
 }
 
 onClickOutside(deleteModalRef, closeModalHandler)
+
+onKeyStroke('Escape', closeModalHandler)
 </script>
