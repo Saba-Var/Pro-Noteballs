@@ -31,7 +31,7 @@
 
 <script setup>
 import { useRoute, useRouter } from 'vue-router'
-import { useNotesStore } from '@/stores/notes'
+import { useNotesStore } from '@/store'
 import { useToast } from 'vue-toastification'
 import { AddEditNote } from '@/components'
 import { onMounted, ref } from 'vue'

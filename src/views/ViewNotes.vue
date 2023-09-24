@@ -29,7 +29,7 @@
 
 <script setup>
 import { NoteCard, AddEditNote } from '@/components'
-import { useNotesStore } from '@/stores/notes'
+import { useNotesStore } from '@/store'
 import { useToast } from 'vue-toastification'
 import { storeToRefs } from 'pinia'
 import { ref } from 'vue'

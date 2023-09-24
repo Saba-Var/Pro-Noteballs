@@ -25,7 +25,7 @@
 </template>
 
 <script setup>
-import { useNotesStore } from '@/stores/notes'
+import { useNotesStore } from '@/store'
 import { vAutofocus } from '@/directives'
 
 const { totalNotesCount, totalCharactersCount } = useNotesStore()

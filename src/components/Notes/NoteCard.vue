@@ -59,7 +59,7 @@
 <script setup>
 import { defineProps, computed, ref, defineEmits, reactive } from 'vue'
 import { ModalDeleteNote } from '@/components'
-import { useNotesStore } from '@/stores/notes'
+import { useNotesStore } from '@/store'
 import { useToast } from 'vue-toastification'
 import { useRouter } from 'vue-router'
 
@@ -75,8 +75,6 @@ const props = defineProps({
     required: true
   }
 })
-
-console.log(props.note)
 
 const emit = defineEmits({
   'update:modelValue': null
