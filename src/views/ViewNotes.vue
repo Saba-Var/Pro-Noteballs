@@ -30,13 +30,11 @@
 <script setup>
 import { NoteCard, AddEditNote } from '@/components'
 import { useNotesStore } from '@/store'
-import { useToast } from 'vue-toastification'
 import { storeToRefs } from 'pinia'
 import { ref } from 'vue'
 
 const isEditingNote = ref(false)
 const newNoteValue = ref('')
-const toast = useToast()
 
 const storeNotes = useNotesStore()
 
@@ -45,9 +43,9 @@ const { notes } = storeToRefs(storeNotes)
 const { noteAddHandler } = storeNotes
 
 const newNoteAddHandler = () => {
-  noteAddHandler(newNoteValue.value)
-  newNoteValue.value = ''
-  toast.success('Note added successfully!')
+  noteAddHandler(newNoteValue.value, () => {
+    newNoteValue.value = ''
+  })
 }
 
 const enableEditingNote = () => {

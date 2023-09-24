@@ -19,14 +19,16 @@
         <div class="has-text-right has-text-grey-light">
           <small>
             Created at:
-            <time :datetime="note.createdAt"> {{ note.createdAt }} </time>
+            <time :datetime="note.createdAt">
+              {{ formatDate(note.createdAt) }}
+            </time>
           </small>
         </div>
 
         <div v-if="note.updatedAt" class="has-text-right has-text-grey-light">
           <small>
             Updated at:
-            <time :datetime="note.updatedAt"> {{ note.updatedAt }} </time>
+            <time :datetime="note.updatedAt"> {{ formatDate(note.updatedAt) }} </time>
           </small>
         </div>
       </div>
@@ -115,6 +117,10 @@ const noteContentLengthText = computed(() => {
   const length = props.note.content.length
   return `${length} ${length === 1 ? 'character' : 'characters'}`
 })
+
+const formatDate = (date) => {
+  return `${new Date(date).toLocaleDateString()} - ${new Date(date).toLocaleTimeString()}`
+}
 </script>
 
 <style>

@@ -1,10 +1,12 @@
-import { collection, onSnapshot } from 'firebase/firestore'
+import { collection, onSnapshot, addDoc, orderBy, query } from 'firebase/firestore'
+import { useToast } from 'vue-toastification'
 import { firebaseDb } from '@/services'
 import { defineStore } from 'pinia'
 import { ref, computed } from 'vue'
 
 export const useNotesStore = defineStore('notes', () => {
   const notesCollection = collection(firebaseDb, 'notes')
+  const toast = useToast()
 
   const notes = ref([])
 
@@ -22,26 +24,39 @@ export const useNotesStore = defineStore('notes', () => {
   })
 
   const getAllNotes = async () => {
-    onSnapshot(notesCollection, (querySnapshot) => {
-      const allNotes = []
-      querySnapshot.forEach((doc) => {
-        allNotes.push({
-          id: doc.id,
-          ...doc.data()
-        })
-      })
+    try {
+      const q = query(notesCollection, orderBy('createdAt', 'desc'))
 
-      notes.value = allNotes
-    })
+      onSnapshot(q, (querySnapshot) => {
+        const allNotes = []
+
+        querySnapshot.forEach((doc) => {
+          allNotes.push({
+            id: doc.id,
+            ...doc.data()
+          })
+        })
+
+        notes.value = allNotes
+      })
+    } catch (error) {
+      toast.error('Notes could not be fetched!')
+    }
   }
 
-  const noteAddHandler = (newNote) => {
-    notes.value.unshift({
-      createdAt: new Date().toDateString(),
-      id: new Date().getTime(),
-      content: newNote.trim(),
-      updatedAt: null
-    })
+  const noteAddHandler = async (newNote, cb = () => {}) => {
+    try {
+      await addDoc(notesCollection, {
+        createdAt: new Date().toISOString(),
+        content: newNote.trim(),
+        updatedAt: null
+      })
+
+      toast.success('Note added successfully!')
+      cb()
+    } catch (error) {
+      toast.error('Note could not be added!')
+    }
   }
 
   const editNoteHandler = (id, newContent) => {
