@@ -1,5 +1,5 @@
 <template>
-  <nav class="navbar is-success" role="navigation" aria-label="main navigation">
+  <nav class="navbar is-info" role="navigation" aria-label="main navigation">
     <div class="container is-max-desktop px-2">
       <div class="navbar-brand">
         <RouterLink to="/" class="navbar-item is-size-4 is-family-monospace is-clickable">
