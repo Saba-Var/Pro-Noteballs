@@ -5,7 +5,7 @@
     }"
     class="notes"
   >
-    <AddEditNote v-model="newNoteValue">
+    <AddEditNote bgColor="info" v-model="newNoteValue">
       <template v-slot:buttons>
         <button
           class="button has-background-success is-link"

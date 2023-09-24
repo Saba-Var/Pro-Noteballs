@@ -12,7 +12,7 @@ const app = createApp(App)
 
 const toastOptions = {
   pauseOnHover: false,
-  timeout: 3000,
+  timeout: 2500,
   toastClassName: 'toast',
   maxToasts: 3
 }

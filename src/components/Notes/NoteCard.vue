@@ -12,24 +12,29 @@
             {{ note.content }}
           </p>
         </div>
-        <div class="has-text-right has-text-grey-light mt-2">
-          <small> {{ noteContentLengthText }}</small>
-        </div>
 
-        <div class="has-text-right has-text-grey-light">
-          <small>
-            Created at:
-            <time :datetime="note.createdAt">
-              {{ formatDate(note.createdAt) }}
-            </time>
-          </small>
-        </div>
+        <div class="note-details">
+          <div>
+            <div class="has-text-grey-light">
+              <small>
+                Created at:
+                <time :datetime="note.createdAt">
+                  {{ createdAt.value }}
+                </time>
+              </small>
+            </div>
 
-        <div v-if="note.updatedAt" class="has-text-right has-text-grey-light">
-          <small>
-            Updated at:
-            <time :datetime="note.updatedAt"> {{ formatDate(note.updatedAt) }} </time>
-          </small>
+            <div v-if="note.updatedAt" class="has-text-grey-light">
+              <small>
+                Updated at:
+                <time :datetime="note.updatedAt"> {{ updatedAt.value }} </time>
+              </small>
+            </div>
+          </div>
+
+          <div class="has-text-grey-light">
+            <small> {{ noteContentLengthText }}</small>
+          </div>
         </div>
       </div>
 
@@ -61,6 +66,7 @@
 <script setup>
 import { defineProps, computed, ref, defineEmits, reactive } from 'vue'
 import { ModalDeleteNote } from '@/components'
+import { useDateFormat } from '@vueuse/core'
 import { useNotesStore } from '@/store'
 import { useRouter } from 'vue-router'
 
@@ -115,9 +121,10 @@ const noteContentLengthText = computed(() => {
   return `${length} ${length === 1 ? 'character' : 'characters'}`
 })
 
-const formatDate = (date) => {
-  return `${new Date(date).toLocaleDateString()} - ${new Date(date).toLocaleTimeString()}`
-}
+const formatDate = (date) => useDateFormat(date, 'YYYY-MM-DD - HH:mm:ss')
+
+const createdAt = computed(() => formatDate(props.note.createdAt))
+const updatedAt = computed(() => formatDate(props.note.updatedAt))
 </script>
 
 <style>
@@ -131,5 +138,11 @@ const formatDate = (date) => {
 
 .action-button {
   border-radius: 0 !important;
+}
+
+.note-details {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
 }
 </style>
