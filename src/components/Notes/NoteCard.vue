@@ -76,6 +76,8 @@ const props = defineProps({
   }
 })
 
+console.log(props.note)
+
 const emit = defineEmits({
   'update:modelValue': null
 })
