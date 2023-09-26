@@ -46,6 +46,8 @@
           >
             Stats</RouterLink
           >
+
+          <button class="button submit-btn logout-btn is-link">Logout</button>
         </div>
       </div>
     </div>
@@ -67,11 +69,20 @@ onClickOutside(navbarMobileRef, () => showMobileNavBar.value && (showMobileNavBa
 </script>
 
 <style>
+.logout-btn {
+  margin-top: 5.5px;
+  margin-left: 2rem;
+}
+
 @media (max-width: 1023px) {
   .navbar-menu {
     position: absolute;
     left: 0;
     width: 100%;
+  }
+
+  .logout-btn {
+    margin-left: 10px;
   }
 }
 </style>
