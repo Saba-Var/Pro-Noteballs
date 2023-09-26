@@ -46,7 +46,15 @@
             <ErrorMessage class="has-text-danger" name="password" />
           </div>
 
-          <button type="submit" class="button mt-5 submit-btn is-primary">{{ formTitle }}</button>
+          <button
+            type="submit"
+            :disabled="isRegistering.value"
+            class="button mt-5 submit-btn is-primary"
+          >
+            {{ formTitle }}
+          </button>
+
+          {{ isRegistering }}
         </Form>
       </div>
     </div>
@@ -56,14 +64,19 @@
 <script setup>
 import { Form, Field, ErrorMessage, configure } from 'vee-validate'
 import { authFormValidationSchema } from '@/schemas'
+import { useAuthStore } from '@/stores'
 import { ref, computed } from 'vue'
 
 const register = ref(false)
 
 const formTitle = computed(() => (register.value ? 'Register' : 'Login'))
 
+const { registerUserHandler, isRegistering } = useAuthStore()
+
 const submitHandler = (data) => {
-  console.log(data)
+  if (register.value) {
+    registerUserHandler(data)
+  }
 }
 
 configure({
