@@ -22,7 +22,7 @@
 
 <script setup>
 import { onClickOutside, onKeyStroke } from '@vueuse/core'
-import { defineEmits, defineProps, ref } from 'vue'
+import { ref } from 'vue'
 
 defineProps({
   modelValue: {

@@ -1,4 +1,4 @@
-import { ViewNotes, ViewStats, ViewEditNote, NotFoundPage } from '@/views'
+import { ViewNotes, ViewStats, ViewEditNote, NotFoundPage, ViewAuth } from '@/views'
 import { createRouter, createWebHistory } from 'vue-router'
 
 const routes = [
@@ -18,6 +18,12 @@ const routes = [
     component: ViewEditNote,
     path: '/edit-note/:id',
     name: 'edit-note'
+  },
+
+  {
+    component: ViewAuth,
+    path: '/auth',
+    name: 'auth'
   },
 
   {

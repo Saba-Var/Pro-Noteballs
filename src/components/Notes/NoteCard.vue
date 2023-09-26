@@ -64,8 +64,8 @@
 </template>
 
 <script setup>
-import { defineProps, computed, ref, defineEmits, reactive } from 'vue'
 import { ModalDeleteNote } from '@/components'
+import { computed, ref, reactive } from 'vue'
 import { useDateFormat } from '@vueuse/core'
 import { useNotesStore } from '@/store'
 import { useRouter } from 'vue-router'

@@ -31,8 +31,8 @@
 </template>
 
 <script setup>
-import { defineProps, computed, defineEmits } from 'vue'
 import { vAutofocus } from '@/directives'
+import { computed } from 'vue'
 
 const props = defineProps({
   modelValue: {
