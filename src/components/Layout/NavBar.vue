@@ -24,6 +24,7 @@
       </div>
 
       <div
+        v-if="userData.id"
         :class="{ 'is-active': showMobileNavBar }"
         id="navbarBasicExample"
         ref="navbarMobileRef"
