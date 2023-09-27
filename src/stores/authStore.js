@@ -1,4 +1,4 @@
-import { createUserWithEmailAndPassword, signOut } from 'firebase/auth'
+import { createUserWithEmailAndPassword, signOut, signInWithEmailAndPassword } from 'firebase/auth'
 import { useToast } from 'vue-toastification'
 import { firebaseAuth } from '@/services'
 import { useRouter } from 'vue-router'
@@ -21,6 +21,19 @@ export const useAuthStore = defineStore('auth', () => {
     }
   }
 
+  const signInHandler = async ({ email, password }) => {
+    try {
+      const response = await signInWithEmailAndPassword(firebaseAuth, email, password)
+      router.push('/')
+    } catch (error) {
+      if (error.code === 'auth/invalid-login-credentials') {
+        toast.error('Wrong password')
+      } else {
+        toast.error('Something went wrong')
+      }
+    }
+  }
+
   const logoutHandler = async () => {
     try {
       await signOut(firebaseAuth)
@@ -30,5 +43,5 @@ export const useAuthStore = defineStore('auth', () => {
     }
   }
 
-  return { registerUserHandler, logoutHandler }
+  return { registerUserHandler, logoutHandler, signInHandler }
 })

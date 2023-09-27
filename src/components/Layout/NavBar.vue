@@ -47,9 +47,7 @@
             Stats</RouterLink
           >
 
-          <button @click="logoutHandler" class="button submit-btn logout-btn is-link">
-            Logout
-          </button>
+          <button @click="logout" class="button submit-btn logout-btn is-link">Logout</button>
         </div>
       </div>
     </div>
@@ -67,6 +65,11 @@ const navbarMobileRef = ref(null)
 const navbarBurgerRef = ref(null)
 
 const { logoutHandler } = useAuthStore()
+
+const logout = () => {
+  logoutHandler()
+  showMobileNavBar.value = false
+}
 
 onClickOutside(navbarMobileRef, () => showMobileNavBar.value && (showMobileNavBar.value = false), {
   ignore: [navbarBurgerRef]

@@ -65,11 +65,13 @@ const register = ref(false)
 
 const formTitle = computed(() => (register.value ? 'Register' : 'Login'))
 
-const { registerUserHandler } = useAuthStore()
+const { registerUserHandler, signInHandler } = useAuthStore()
 
 const submitHandler = (data) => {
   if (register.value) {
     registerUserHandler(data)
+  } else {
+    signInHandler(data)
   }
 }
 
