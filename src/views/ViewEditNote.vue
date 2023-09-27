@@ -32,7 +32,7 @@
 <script setup>
 import { useRoute, useRouter } from 'vue-router'
 import { AddEditNote } from '@/components'
-import { useNotesStore } from '@/store'
+import { useNotesStore } from '@/stores'
 import { onMounted, ref } from 'vue'
 
 const noteStore = useNotesStore()

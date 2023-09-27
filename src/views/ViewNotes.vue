@@ -36,7 +36,7 @@
 
 <script setup>
 import { NoteCard, AddEditNote } from '@/components'
-import { useNotesStore } from '@/store'
+import { useNotesStore } from '@/stores'
 import { storeToRefs } from 'pinia'
 import { ref } from 'vue'
 

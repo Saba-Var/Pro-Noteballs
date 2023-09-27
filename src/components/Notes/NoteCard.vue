@@ -64,10 +64,10 @@
 </template>
 
 <script setup>
-import { defineProps, computed, ref, defineEmits, reactive } from 'vue'
 import { ModalDeleteNote } from '@/components'
+import { computed, ref, reactive } from 'vue'
 import { useDateFormat } from '@vueuse/core'
-import { useNotesStore } from '@/store'
+import { useNotesStore } from '@/stores'
 import { useRouter } from 'vue-router'
 
 const router = useRouter()

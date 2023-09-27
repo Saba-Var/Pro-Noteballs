@@ -7,6 +7,7 @@
         </RouterLink>
 
         <a
+          v-if="userData.id"
           @click.prevent="showMobileNavBar = !showMobileNavBar"
           :class="{ 'is-active': showMobileNavBar }"
           data-target="navbarBasicExample"
@@ -46,6 +47,10 @@
           >
             Stats</RouterLink
           >
+
+          <button v-if="userData.id" @click="logout" class="button submit-btn logout-btn is-link">
+            Logout
+          </button>
         </div>
       </div>
     </div>
@@ -54,6 +59,7 @@
 
 <script setup>
 import { onClickOutside } from '@vueuse/core'
+import { useAuthStore } from '@/stores'
 import { RouterLink } from 'vue-router'
 import { ref } from 'vue'
 
@@ -61,17 +67,33 @@ const showMobileNavBar = ref(false)
 const navbarMobileRef = ref(null)
 const navbarBurgerRef = ref(null)
 
+const { logoutHandler, userData } = useAuthStore()
+
+const logout = () => {
+  logoutHandler()
+  showMobileNavBar.value = false
+}
+
 onClickOutside(navbarMobileRef, () => showMobileNavBar.value && (showMobileNavBar.value = false), {
   ignore: [navbarBurgerRef]
 })
 </script>
 
 <style>
+.logout-btn {
+  margin-top: 5.5px;
+  margin-left: 2rem;
+}
+
 @media (max-width: 1023px) {
   .navbar-menu {
     position: absolute;
     left: 0;
     width: 100%;
+  }
+
+  .logout-btn {
+    margin-left: 10px;
   }
 }
 </style>
