@@ -47,7 +47,9 @@
             Stats</RouterLink
           >
 
-          <button @click="logout" class="button submit-btn logout-btn is-link">Logout</button>
+          <button v-if="userData.id" @click="logout" class="button submit-btn logout-btn is-link">
+            Logout
+          </button>
         </div>
       </div>
     </div>
@@ -64,7 +66,7 @@ const showMobileNavBar = ref(false)
 const navbarMobileRef = ref(null)
 const navbarBurgerRef = ref(null)
 
-const { logoutHandler } = useAuthStore()
+const { logoutHandler, userData } = useAuthStore()
 
 const logout = () => {
   logoutHandler()
