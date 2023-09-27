@@ -7,6 +7,7 @@
         </RouterLink>
 
         <a
+          v-if="userData.id"
           @click.prevent="showMobileNavBar = !showMobileNavBar"
           :class="{ 'is-active': showMobileNavBar }"
           data-target="navbarBasicExample"
