@@ -44,7 +44,7 @@ export const useAuthStore = defineStore('auth', () => {
 
   const signInHandler = async ({ email, password }) => {
     try {
-      const response = await signInWithEmailAndPassword(firebaseAuth, email, password)
+      await signInWithEmailAndPassword(firebaseAuth, email, password)
       router.push('/')
     } catch (error) {
       if (error.code === 'auth/invalid-login-credentials') {
