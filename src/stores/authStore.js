@@ -1,12 +1,33 @@
-import { createUserWithEmailAndPassword, signOut, signInWithEmailAndPassword } from 'firebase/auth'
 import { useToast } from 'vue-toastification'
 import { firebaseAuth } from '@/services'
 import { useRouter } from 'vue-router'
 import { defineStore } from 'pinia'
+import {
+  createUserWithEmailAndPassword,
+  signInWithEmailAndPassword,
+  onAuthStateChanged,
+  signOut
+} from 'firebase/auth'
+import { reactive } from 'vue'
 
 export const useAuthStore = defineStore('auth', () => {
   const toast = useToast()
   const router = useRouter()
+  const userData = reactive({})
+
+  const authDetectHandler = () => {
+    onAuthStateChanged(firebaseAuth, (user) => {
+      if (user) {
+        userData.id = user.uid
+        userData.email = user.email
+        router.push('/')
+      } else {
+        userData.id = null
+        userData.email = null
+        router.push('/auth')
+      }
+    })
+  }
 
   const registerUserHandler = async ({ email, password }) => {
     try {
@@ -43,5 +64,5 @@ export const useAuthStore = defineStore('auth', () => {
     }
   }
 
-  return { registerUserHandler, logoutHandler, signInHandler }
+  return { registerUserHandler, logoutHandler, signInHandler, authDetectHandler, userData }
 })
