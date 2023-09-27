@@ -1,4 +1,4 @@
-import { createUserWithEmailAndPassword } from 'firebase/auth'
+import { createUserWithEmailAndPassword, signOut } from 'firebase/auth'
 import { useToast } from 'vue-toastification'
 import { firebaseAuth } from '@/services'
 import { defineStore } from 'pinia'
@@ -10,7 +10,6 @@ export const useAuthStore = defineStore('auth', () => {
   const isRegistering = ref(false)
 
   const registerUserHandler = async ({ email, password }) => {
-    console.log(isRegistering.value)
     isRegistering.value = true
     try {
       await createUserWithEmailAndPassword(firebaseAuth, email, password)
@@ -21,8 +20,18 @@ export const useAuthStore = defineStore('auth', () => {
       } else {
         toast.error('Something went wrong')
       }
+    } finally {
+      isRegistering.value = false
     }
   }
 
-  return { registerUserHandler, isRegistering }
+  const logoutHandler = async () => {
+    try {
+      await signOut(firebaseAuth)
+    } catch (error) {
+      toast.error('Something went wrong')
+    }
+  }
+
+  return { registerUserHandler, isRegistering, logoutHandler }
 })

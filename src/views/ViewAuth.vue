@@ -46,15 +46,9 @@
             <ErrorMessage class="has-text-danger" name="password" />
           </div>
 
-          <button
-            type="submit"
-            :disabled="isRegistering.value"
-            class="button mt-5 submit-btn is-primary"
-          >
+          <button type="submit" class="button mt-5 submit-btn is-primary">
             {{ formTitle }}
           </button>
-
-          {{ isRegistering }}
         </Form>
       </div>
     </div>
@@ -71,7 +65,7 @@ const register = ref(false)
 
 const formTitle = computed(() => (register.value ? 'Register' : 'Login'))
 
-const { registerUserHandler, isRegistering } = useAuthStore()
+const { registerUserHandler } = useAuthStore()
 
 const submitHandler = (data) => {
   if (register.value) {
