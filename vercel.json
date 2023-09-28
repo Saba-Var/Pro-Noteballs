@@ -4,13 +4,11 @@
   "routes": [
     {
       "src": "/(.*\\.(?:js|css|map|json|txt|xml))",
-      "headers": { "Cache-Control": "public, max-age=31536000, immutable" },
-      "use": "@vercel/static"
+      "headers": { "Cache-Control": "public, max-age=31536000, immutable" }
     },
     {
       "src": "/(img|fonts)/(.*)",
-      "headers": { "Cache-Control": "public, max-age=31536000, immutable" },
-      "use": "@vercel/static"
+      "headers": { "Cache-Control": "public, max-age=31536000, immutable" }
     },
     {
       "src": "/(.*)",
