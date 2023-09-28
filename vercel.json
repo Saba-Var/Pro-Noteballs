@@ -1,0 +1,20 @@
+{
+  "version": 2,
+  "builds": [{ "src": "dist/**", "use": "@vercel/static" }],
+  "routes": [
+    {
+      "src": "/(.*\\.(?:js|css|map|json|txt|xml))",
+      "headers": { "Cache-Control": "public, max-age=31536000, immutable" },
+      "use": "@vercel/static"
+    },
+    {
+      "src": "/(img|fonts)/(.*)",
+      "headers": { "Cache-Control": "public, max-age=31536000, immutable" },
+      "use": "@vercel/static"
+    },
+    {
+      "src": "/(.*)",
+      "dest": "/index.html"
+    }
+  ]
+}
