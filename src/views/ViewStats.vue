@@ -20,13 +20,11 @@
         </tr>
       </tbody>
     </table>
-    <input v-autofocus type="text" class="input" placeholder="Do you love Pro Noteballs?" />
   </div>
 </template>
 
 <script setup>
 import { useNotesStore } from '@/stores'
-import { vAutofocus } from '@/directives'
 
 const { totalNotesCount, totalCharactersCount } = useNotesStore()
 </script>

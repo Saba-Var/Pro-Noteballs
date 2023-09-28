@@ -1,6 +1,7 @@
 import { ViewNotes, ViewStats, ViewEditNote, NotFoundPage, ViewAuth } from '@/views'
 import { createRouter, createWebHistory } from 'vue-router'
-import { useAuthStore } from '@/stores'
+import { onAuthStateChanged } from 'firebase/auth'
+import { firebaseAuth } from '@/services'
 
 const routes = [
   {
@@ -39,15 +40,28 @@ const router = createRouter({
   routes
 })
 
-router.beforeEach(async (to) => {
-  const { userData } = useAuthStore()
+router.beforeEach(async (to, _, next) => {
+  try {
+    const user = await new Promise((resolve) => {
+      onAuthStateChanged(firebaseAuth, (user) => {
+        resolve(user)
+      })
+    })
 
-  if (!userData.id && to.name !== 'auth') {
-    return { name: 'auth' }
-  }
+    let redirect = null
 
-  if (userData.id && to.name === 'auth') {
-    return false
+    if (!user && to.name !== 'auth') {
+      redirect = { name: 'auth' }
+    }
+
+    if (user && to.name === 'auth') {
+      redirect = { name: 'notes' }
+    }
+
+    next(redirect)
+  } catch (error) {
+    console.error('Error checking authentication state:', error)
+    next()
   }
 })
 
