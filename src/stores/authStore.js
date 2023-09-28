@@ -18,23 +18,33 @@ export const useAuthStore = defineStore('auth', () => {
   const router = useRouter()
   const toast = useToast()
 
+  const userAuthSetupHandler = (user) => {
+    userData.id = user.uid
+    userData.email = user.email
+    localStorage.setItem('userId', user.uid)
+    notesStoreInit()
+  }
+
   const authDetectHandler = () => {
     onAuthStateChanged(firebaseAuth, (user) => {
       if (user) {
-        userData.id = user.uid
-        userData.email = user.email
-        notesStoreInit()
+        userAuthSetupHandler(user)
       } else {
         userData.id = null
         userData.email = null
+        localStorage.removeItem('userId')
       }
     })
   }
 
   const registerUserHandler = async ({ email, password }) => {
     try {
-      await createUserWithEmailAndPassword(firebaseAuth, email, password)
-      toast.success('User registered successfully')
+      const { user } = await createUserWithEmailAndPassword(firebaseAuth, email, password)
+      if (user) {
+        userAuthSetupHandler(user)
+        toast.success('User registered successfully')
+        router.push('/')
+      }
     } catch (error) {
       if (error.code === 'auth/email-already-in-use') {
         toast.error('Email already in use')

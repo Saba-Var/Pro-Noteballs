@@ -1,6 +1,5 @@
 import { ViewNotes, ViewStats, ViewEditNote, NotFoundPage, ViewAuth } from '@/views'
 import { createRouter, createWebHistory } from 'vue-router'
-import { useAuthStore } from '@/stores'
 
 const routes = [
   {
@@ -40,14 +39,14 @@ const router = createRouter({
 })
 
 router.beforeEach(async (to) => {
-  const { userData } = useAuthStore()
+  const userId = localStorage.getItem('userId')
 
-  if (!userData.id && to.name !== 'auth') {
+  if (!userId && to.name !== 'auth') {
     return { name: 'auth' }
   }
 
-  if (userData.id && to.name === 'auth') {
-    return false
+  if (userId && to.name === 'auth') {
+    return { name: 'notes' }
   }
 })
 
