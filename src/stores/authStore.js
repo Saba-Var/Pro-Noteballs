@@ -23,12 +23,10 @@ export const useAuthStore = defineStore('auth', () => {
       if (user) {
         userData.id = user.uid
         userData.email = user.email
-        router.push('/')
         notesStoreInit()
       } else {
         userData.id = null
         userData.email = null
-        router.push('/auth')
       }
     })
   }
