@@ -15,8 +15,9 @@ import {
 } from 'firebase/firestore'
 
 export const useNotesStore = defineStore('notes', () => {
-  let notesCollection
-  let notesQuery
+  let notesCollection = null
+  let notesQuery = null
+  let getAllNotesSnapshot = null
 
   const toast = useToast()
 
@@ -49,7 +50,7 @@ export const useNotesStore = defineStore('notes', () => {
     try {
       notesLoading.value = true
 
-      onSnapshot(notesQuery, (querySnapshot) => {
+      getAllNotesSnapshot = onSnapshot(notesQuery, (querySnapshot) => {
         const allNotes = []
 
         querySnapshot.forEach((doc) => {
@@ -107,6 +108,9 @@ export const useNotesStore = defineStore('notes', () => {
 
   const clearNotesHandler = () => {
     notes.value = []
+    if (getAllNotesSnapshot) {
+      getAllNotesSnapshot()
+    }
   }
 
   return {
