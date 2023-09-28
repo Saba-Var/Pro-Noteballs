@@ -21,7 +21,6 @@ export const useAuthStore = defineStore('auth', () => {
   const userAuthSetupHandler = (user) => {
     userData.id = user.uid
     userData.email = user.email
-    localStorage.setItem('userId', user.uid)
     notesStoreInit()
   }
 
@@ -32,7 +31,6 @@ export const useAuthStore = defineStore('auth', () => {
       } else {
         userData.id = null
         userData.email = null
-        localStorage.removeItem('userId')
       }
     })
   }
