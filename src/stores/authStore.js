@@ -1,19 +1,22 @@
 import { useToast } from 'vue-toastification'
 import { firebaseAuth } from '@/services'
+import { useNotesStore } from '@/stores'
 import { useRouter } from 'vue-router'
 import { defineStore } from 'pinia'
+import { reactive } from 'vue'
 import {
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
   onAuthStateChanged,
   signOut
 } from 'firebase/auth'
-import { reactive } from 'vue'
 
 export const useAuthStore = defineStore('auth', () => {
-  const toast = useToast()
-  const router = useRouter()
   const userData = reactive({})
+
+  const { notesStoreInit, clearNotesHandler } = useNotesStore()
+  const router = useRouter()
+  const toast = useToast()
 
   const authDetectHandler = () => {
     onAuthStateChanged(firebaseAuth, (user) => {
@@ -21,6 +24,7 @@ export const useAuthStore = defineStore('auth', () => {
         userData.id = user.uid
         userData.email = user.email
         router.push('/')
+        notesStoreInit()
       } else {
         userData.id = null
         userData.email = null
@@ -59,6 +63,7 @@ export const useAuthStore = defineStore('auth', () => {
     try {
       await signOut(firebaseAuth)
       router.push('/auth')
+      clearNotesHandler()
     } catch (error) {
       toast.error('Something went wrong')
     }

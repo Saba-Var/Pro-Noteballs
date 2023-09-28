@@ -1,13 +1,11 @@
 <script setup>
-import { useNotesStore, useAuthStore } from '@/stores'
+import { useAuthStore } from '@/stores'
 import { RouterView } from 'vue-router'
 import { NavBar } from '@/components'
 import { onMounted } from 'vue'
 
-const notesStore = useNotesStore()
 const authStore = useAuthStore()
 
-onMounted(notesStore.getAllNotes)
 onMounted(authStore.authDetectHandler)
 </script>
 
