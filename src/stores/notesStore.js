@@ -105,8 +105,13 @@ export const useNotesStore = defineStore('notes', () => {
     }
   }
 
+  const clearNotesHandler = () => {
+    notes.value = []
+  }
+
   return {
     totalCharactersCount,
+    clearNotesHandler,
     deleteNoteHandler,
     totalNotesCount,
     editNoteHandler,

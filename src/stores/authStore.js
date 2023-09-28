@@ -12,10 +12,11 @@ import {
 } from 'firebase/auth'
 
 export const useAuthStore = defineStore('auth', () => {
-  const toast = useToast()
-  const router = useRouter()
   const userData = reactive({})
-  const { notesStoreInit } = useNotesStore()
+
+  const { notesStoreInit, clearNotesHandler } = useNotesStore()
+  const router = useRouter()
+  const toast = useToast()
 
   const authDetectHandler = () => {
     onAuthStateChanged(firebaseAuth, (user) => {
@@ -62,6 +63,7 @@ export const useAuthStore = defineStore('auth', () => {
     try {
       await signOut(firebaseAuth)
       router.push('/auth')
+      clearNotesHandler()
     } catch (error) {
       toast.error('Something went wrong')
     }
