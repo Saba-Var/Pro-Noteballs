@@ -1,4 +1,5 @@
 import { useToast } from 'vue-toastification'
+import { useAuthStore } from '@/stores'
 import { firebaseDb } from '@/services'
 import { defineStore } from 'pinia'
 import { ref, computed } from 'vue'
@@ -14,11 +15,22 @@ import {
 } from 'firebase/firestore'
 
 export const useNotesStore = defineStore('notes', () => {
-  const notesCollection = collection(firebaseDb, 'notes')
+  let notesCollection
+  let notesQuery
+
   const toast = useToast()
 
   const notesLoading = ref(false)
   const notes = ref([])
+
+  const notesStoreInit = () => {
+    const { userData } = useAuthStore()
+
+    notesCollection = collection(firebaseDb, 'users', userData?.id, 'notes')
+    notesQuery = query(notesCollection, orderBy('createdAt', 'desc'))
+
+    getAllNotes()
+  }
 
   const getNoteContent = computed(() => {
     return (id) => {
@@ -37,8 +49,7 @@ export const useNotesStore = defineStore('notes', () => {
     try {
       notesLoading.value = true
 
-      const q = query(notesCollection, orderBy('createdAt', 'desc'))
-      onSnapshot(q, (querySnapshot) => {
+      onSnapshot(notesQuery, (querySnapshot) => {
         const allNotes = []
 
         querySnapshot.forEach((doc) => {
@@ -99,6 +110,7 @@ export const useNotesStore = defineStore('notes', () => {
     deleteNoteHandler,
     totalNotesCount,
     editNoteHandler,
+    notesStoreInit,
     getNoteContent,
     noteAddHandler,
     notesLoading,
